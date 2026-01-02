@@ -23,10 +23,8 @@ const App = {
         // Cargar datos iniciales
         this.loadHomeData();
         
-        // Iniciar ayuno si no está activo
-        if (!Fasting.isActive()) {
-            Fasting.start();
-        }
+        // Actualizar botones de ayuno según estado
+        this.updateFastingButtons();
         
         console.log('✅ App inicializada correctamente');
     },
@@ -99,42 +97,46 @@ const App = {
         Metrics.water.updateUI();
         Metrics.electrolytes.updateUI();
         
-        // Cargar próxima comida
+        // Cargar menú del día completo
         const menu = Menus.getMenuForToday();
         if (menu) {
-            const now = new Date();
-            const currentHour = now.getHours();
-            
-            let nextMeal = null;
-            
-            // Determinar próxima comida
-            if (currentHour < 8) {
-                nextMeal = { type: 'desayuno', data: menu.meals.desayuno, icon: '🍳' };
-            } else if (currentHour < 14) {
-                nextMeal = { type: 'almuerzo', data: menu.meals.almuerzo, icon: '😋' };
-            } else if (currentHour < 20) {
-                nextMeal = { type: 'cena', data: menu.meals.cena, icon: '🌙' };
-            } else {
-                // Después de las 20h, mostrar desayuno del día siguiente
-                nextMeal = { type: 'desayuno', data: { hora: '08:00', comida: 'Próximo desayuno' }, icon: '🍳' };
-            }
-            
-            if (nextMeal) {
-                const mealTimeEl = document.getElementById('next-meal-time');
-                const mealEl = document.getElementById('next-meal');
+            const container = document.getElementById('today-meals');
+            if (container) {
+                const meals = [
+                    { type: 'desayuno', icon: '🍳', label: 'Desayuno', data: menu.meals.desayuno },
+                    { type: 'almuerzo', icon: '😋', label: 'Almuerzo', data: menu.meals.almuerzo },
+                    { type: 'cena', icon: '🌙', label: 'Cena', data: menu.meals.cena }
+                ];
                 
-                if (mealTimeEl) mealTimeEl.textContent = nextMeal.data.hora;
-                
-                if (mealEl) {
-                    const mealName = nextMeal.type.charAt(0).toUpperCase() + nextMeal.type.slice(1);
-                    mealEl.innerHTML = `
-                        <div class="meal-icon">${nextMeal.icon}</div>
-                        <div class="meal-info">
-                            <div class="meal-name">${mealName}</div>
-                            <div class="meal-description">${nextMeal.data.comida}</div>
+                container.innerHTML = meals.map(meal => {
+                    const isCompleted = Metrics.meals.isCompleted(meal.type);
+                    return `
+                        <div class="meal-item ${isCompleted ? 'completed' : ''}" data-meal="${meal.type}">
+                            <span class="meal-item-icon">${meal.icon}</span>
+                            <div class="meal-item-content">
+                                <div class="meal-item-header">
+                                    <span class="meal-item-name">${meal.label}</span>
+                                    <span class="meal-item-time">${meal.data.hora}</span>
+                                </div>
+                                <div class="meal-item-description">${meal.data.comida}</div>
+                            </div>
                         </div>
                     `;
-                }
+                }).join('');
+                
+                // Agregar eventos de click
+                container.querySelectorAll('.meal-item').forEach(item => {
+                    if (!item.classList.contains('completed')) {
+                        item.style.cursor = 'pointer';
+                        item.addEventListener('click', () => {
+                            const mealType = item.dataset.meal;
+                            if (confirm(`¿Marcar ${item.querySelector('.meal-item-name').textContent} como completada?`)) {
+                                Metrics.meals.complete(mealType);
+                                this.loadHomeData(); // Recargar
+                            }
+                        });
+                    }
+                });
             }
         }
     },
@@ -323,14 +325,30 @@ const App = {
             });
         }
         
-        // Botón Comida Completada
-        const btnMealCompleted = document.getElementById('btn-meal-completed');
-        if (btnMealCompleted) {
-            btnMealCompleted.addEventListener('click', () => {
-                Metrics.meals.complete('current');
-                alert('✅ Comida registrada. Timer de ayuno reiniciado.');
+        // Botones de control de ayuno
+        const btnStartFasting = document.getElementById('btn-start-fasting');
+        const btnEndFasting = document.getElementById('btn-end-fasting');
+        
+        if (btnStartFasting) {
+            btnStartFasting.addEventListener('click', () => {
+                Fasting.start();
+                btnStartFasting.style.display = 'none';
+                btnEndFasting.style.display = 'block';
+                alert('⏱️ Ayuno iniciado. ¡Buena suerte!');
             });
         }
+        
+        if (btnEndFasting) {
+            btnEndFasting.addEventListener('click', () => {
+                const duration = Fasting.end();
+                btnStartFasting.style.display = 'block';
+                btnEndFasting.style.display = 'none';
+                alert(`✅ Ayuno finalizado. Duración: ${duration.toFixed(1)} horas`);
+            });
+        }
+        
+        // Actualizar visibilidad de botones según estado
+        this.updateFastingButtons();
         
         // Checkbox Electrolitos
         const checkElectrolytes = document.getElementById('electrolytes-checkbox');
@@ -423,6 +441,22 @@ const App = {
         const latest = Metrics.measures.getLatest();
         if (latest) {
             document.getElementById('input-weight').value = latest.weight;
+        }
+    },
+    
+    // Actualizar visibilidad de botones de ayuno
+    updateFastingButtons() {
+        const btnStart = document.getElementById('btn-start-fasting');
+        const btnEnd = document.getElementById('btn-end-fasting');
+        
+        if (btnStart && btnEnd) {
+            if (Fasting.isActive()) {
+                btnStart.style.display = 'none';
+                btnEnd.style.display = 'block';
+            } else {
+                btnStart.style.display = 'block';
+                btnEnd.style.display = 'none';
+            }
         }
     }
 };

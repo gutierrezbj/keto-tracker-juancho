@@ -66,29 +66,21 @@
                     </button>
                 </div>
 
-                <!-- Próxima Comida -->
+                <!-- Comidas del Día -->
                 <div class="card">
                     <div class="card-header">
-                        <h2>🍽️ Próxima Comida</h2>
-                        <span class="meal-time" id="next-meal-time">08:00</span>
+                        <h2>🍽️ Menú de Hoy</h2>
                     </div>
-                    <div class="meal-card" id="next-meal">
-                        <div class="meal-icon">🍳</div>
-                        <div class="meal-info">
-                            <div class="meal-name">Desayuno</div>
-                            <div class="meal-description">Cargando...</div>
-                        </div>
+                    <div id="today-meals" class="today-meals">
+                        <!-- Se llena dinámicamente -->
                     </div>
-                    <button id="btn-meal-completed" class="btn btn-secondary">
-                        ✅ Comida Completada
-                    </button>
                 </div>
 
                 <!-- Timer de Ayuno -->
                 <div class="card">
                     <div class="card-header">
                         <h2>⏱️ Ayuno Actual</h2>
-                        <span class="fasting-status" id="fasting-status">En progreso</span>
+                        <span class="fasting-status" id="fasting-status">Inactivo</span>
                     </div>
                     <div class="timer-display">
                         <div class="timer-value" id="fasting-timer">00:00:00</div>
@@ -96,6 +88,14 @@
                     </div>
                     <div class="fasting-target" id="fasting-target">
                         Meta de hoy: 12 horas
+                    </div>
+                    <div class="fasting-controls">
+                        <button id="btn-start-fasting" class="btn btn-primary">
+                            ▶️ Iniciar Ayuno
+                        </button>
+                        <button id="btn-end-fasting" class="btn btn-secondary" style="display: none;">
+                            ⏹️ Finalizar Ayuno
+                        </button>
                     </div>
                 </div>
 
@@ -214,22 +214,38 @@
                 <!-- Resumen Actual -->
                 <div class="card">
                     <h2>📊 Estado Actual</h2>
+                    <div class="metrics-grid-improved">
+                        <div class="metric-card-large metric-highlight">
+                            <div class="metric-icon">⚖️</div>
+                            <div class="metric-content">
+                                <div class="metric-label">Peso Actual</div>
+                                <div class="metric-value" id="current-weight">90.0 kg</div>
+                            </div>
+                        </div>
+                        <div class="metric-card-large metric-success">
+                            <div class="metric-icon">📉</div>
+                            <div class="metric-content">
+                                <div class="metric-label">Pérdida Total</div>
+                                <div class="metric-value" id="weight-lost">0.0 kg</div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="metrics-grid">
                         <div class="metric-card">
                             <div class="metric-label">Peso Inicial</div>
                             <div class="metric-value">90.0 kg</div>
                         </div>
-                        <div class="metric-card metric-highlight">
-                            <div class="metric-label">Peso Actual</div>
-                            <div class="metric-value" id="current-weight">90.0 kg</div>
-                        </div>
-                        <div class="metric-card metric-success">
-                            <div class="metric-label">Pérdida Total</div>
-                            <div class="metric-value" id="weight-lost">0.0 kg</div>
+                        <div class="metric-card">
+                            <div class="metric-label">Meta Final</div>
+                            <div class="metric-value">80.0 kg</div>
                         </div>
                         <div class="metric-card">
                             <div class="metric-label">IMC Actual</div>
                             <div class="metric-value" id="current-bmi">31.1</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">IMC Meta</div>
+                            <div class="metric-value">27.7</div>
                         </div>
                     </div>
                 </div>

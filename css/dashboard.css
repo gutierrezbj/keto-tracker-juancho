@@ -144,6 +144,67 @@
     border-radius: var(--radius-full);
 }
 
+/* === TODAY MEALS === */
+.today-meals {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.meal-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-md);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    border-left: 4px solid var(--primary);
+}
+
+.meal-item-icon {
+    font-size: var(--text-3xl);
+    flex-shrink: 0;
+}
+
+.meal-item-content {
+    flex: 1;
+}
+
+.meal-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-xs);
+}
+
+.meal-item-name {
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.meal-item-time {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.meal-item-description {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+.meal-item.completed {
+    opacity: 0.6;
+    border-left-color: var(--success);
+}
+
+.meal-item.completed .meal-item-name::after {
+    content: " ✓";
+    color: var(--success);
+}
+
 /* === CHECKBOX PERSONALIZADO === */
 .checkbox-card {
     display: flex;
@@ -260,4 +321,15 @@
     text-align: center;
     font-size: var(--text-sm);
     color: var(--text-secondary);
+}
+
+/* === FASTING CONTROLS === */
+.fasting-controls {
+    display: flex;
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
+}
+
+.fasting-controls .btn {
+    flex: 1;
 }
