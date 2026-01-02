@@ -1,0 +1,263 @@
+/* ========================================
+   DASHBOARD ESPECÍFICO
+   ======================================== */
+
+/* === ANILLO DE HIDRATACIÓN === */
+.hydration-ring-container {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    margin: var(--space-xl) auto;
+}
+
+.hydration-ring {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.ring-bg {
+    fill: none;
+    stroke: var(--bg-tertiary);
+    stroke-width: 12;
+}
+
+.ring-progress {
+    fill: none;
+    stroke: var(--secondary);
+    stroke-width: 12;
+    stroke-linecap: round;
+    stroke-dasharray: 534;
+    stroke-dashoffset: 534;
+    transition: stroke-dashoffset 0.5s ease;
+}
+
+.ring-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.ring-value {
+    font-size: var(--text-4xl);
+    font-weight: 700;
+    color: var(--secondary);
+    line-height: 1;
+    margin-bottom: var(--space-xs);
+}
+
+.ring-label {
+    font-size: var(--text-base);
+    color: var(--text-secondary);
+    margin-bottom: var(--space-xs);
+}
+
+.ring-sublabel {
+    font-size: var(--text-sm);
+    color: var(--text-tertiary);
+}
+
+/* === TIMER DISPLAY === */
+.timer-display {
+    text-align: center;
+    padding: var(--space-lg) 0;
+}
+
+.timer-value {
+    font-size: var(--text-3xl);
+    font-weight: 700;
+    color: var(--primary);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 2px;
+}
+
+.timer-label {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    margin-top: var(--space-sm);
+}
+
+.timer-large .timer-value {
+    font-size: var(--text-4xl);
+}
+
+/* === FASTING STATUS === */
+.fasting-status {
+    font-size: var(--text-sm);
+    padding: var(--space-xs) var(--space-md);
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--secondary);
+    border-radius: var(--radius-full);
+    font-weight: 600;
+}
+
+.fasting-target {
+    text-align: center;
+    padding: var(--space-md);
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+}
+
+/* === MEAL CARD === */
+.meal-card {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-lg);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-md);
+}
+
+.meal-icon {
+    font-size: var(--text-4xl);
+    flex-shrink: 0;
+}
+
+.meal-info {
+    flex: 1;
+}
+
+.meal-name {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-xs);
+}
+
+.meal-description {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+.meal-time {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--primary);
+    padding: var(--space-xs) var(--space-md);
+    background: rgba(255, 107, 53, 0.1);
+    border-radius: var(--radius-full);
+}
+
+/* === CHECKBOX PERSONALIZADO === */
+.checkbox-card {
+    display: flex;
+    align-items: center;
+    padding: var(--space-md);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.checkbox-card:hover {
+    background: var(--bg-tertiary);
+}
+
+.custom-checkbox {
+    width: 24px;
+    height: 24px;
+    margin-right: var(--space-md);
+    cursor: pointer;
+    accent-color: var(--success);
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    cursor: pointer;
+    flex: 1;
+}
+
+.checkbox-icon {
+    font-size: var(--text-3xl);
+    flex-shrink: 0;
+}
+
+.checkbox-text {
+    flex: 1;
+}
+
+.checkbox-title {
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+}
+
+.checkbox-subtitle {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+}
+
+/* === FASTING STATE === */
+.fasting-state {
+    text-align: center;
+    margin-bottom: var(--space-lg);
+}
+
+.state-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-lg);
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-full);
+}
+
+.state-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--success);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.state-text {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* === TIMER PROGRESS === */
+.timer-progress {
+    margin-top: var(--space-lg);
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    margin-bottom: var(--space-sm);
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--secondary), #60a5fa);
+    border-radius: var(--radius-full);
+    transition: width 0.3s ease;
+    width: 0%;
+}
+
+.progress-text {
+    text-align: center;
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+}

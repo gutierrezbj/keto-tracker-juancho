@@ -1,0 +1,85 @@
+/* ========================================
+   RESPONSIVE - MEDIA QUERIES
+   ======================================== */
+
+/* === TABLETS (600px+) === */
+@media (min-width: 600px) {
+    .metrics-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .menu-calendar {
+        grid-template-columns: 1fr;
+    }
+    
+    .bottom-nav {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
+
+/* === DESKTOP (768px+) === */
+@media (min-width: 768px) {
+    .app-container {
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .hydration-ring-container {
+        width: 240px;
+        height: 240px;
+    }
+    
+    .meal-card {
+        padding: var(--space-xl);
+    }
+}
+
+/* === LANDSCAPE (orientación horizontal) === */
+@media (orientation: landscape) and (max-height: 500px) {
+    .hydration-ring-container {
+        width: 180px;
+        height: 180px;
+    }
+    
+    .ring-value {
+        font-size: var(--text-3xl);
+    }
+    
+    .timer-value {
+        font-size: var(--text-2xl);
+    }
+}
+
+/* === MODO OSCURO (si el sistema lo soporta) === */
+@media (prefers-color-scheme: dark) {
+    /* Futuro: implementar modo oscuro */
+    /* Dejamos esto preparado para v1.1 */
+}
+
+/* === REDUCCIÓN DE MOVIMIENTO === */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* === PRINT (si alguien quiere imprimir) === */
+@media print {
+    .bottom-nav,
+    .btn,
+    .screen-header {
+        display: none;
+    }
+    
+    .screen {
+        display: block !important;
+        page-break-inside: avoid;
+    }
+    
+    .card {
+        page-break-inside: avoid;
+    }
+}

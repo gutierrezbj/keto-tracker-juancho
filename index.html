@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#ff6b35">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="description" content="Centro de Comando KETO - Tu transformación de salud en 28 días">
+    
+    <title>🔥 KETO Tracker - JuanCho</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+    
+    <!-- CSS Modular -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <!-- App Container -->
+    <div id="app" class="app-container">
+        
+        <!-- PANTALLA 1: HOME/DASHBOARD -->
+        <section id="home" class="screen active">
+            <header class="screen-header">
+                <div class="profile-mini">
+                    <div class="profile-avatar">JC</div>
+                    <div class="profile-info">
+                        <div class="profile-name">JuanCho</div>
+                        <div class="profile-meta">51 años • Día <span id="day-number">1</span>/28</div>
+                    </div>
+                </div>
+                <div class="header-stats">
+                    <div class="stat-mini">
+                        <span class="stat-label">Semana</span>
+                        <span class="stat-value" id="week-number">1</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="screen-content">
+                <!-- Anillo de Hidratación -->
+                <div class="card card-highlight">
+                    <div class="card-header">
+                        <h2>💧 Hidratación Hoy</h2>
+                        <span class="meta-text">Meta: 3.2L (13 vasos)</span>
+                    </div>
+                    
+                    <div class="hydration-ring-container">
+                        <svg class="hydration-ring" viewBox="0 0 200 200">
+                            <circle class="ring-bg" cx="100" cy="100" r="85" />
+                            <circle id="ring-progress" class="ring-progress" cx="100" cy="100" r="85" />
+                        </svg>
+                        <div class="ring-content">
+                            <div class="ring-value" id="glasses-count">0</div>
+                            <div class="ring-label">vasos</div>
+                            <div class="ring-sublabel" id="glasses-remaining">Faltan 13</div>
+                        </div>
+                    </div>
+                    
+                    <button id="btn-add-water" class="btn btn-primary btn-large">
+                        💧 +1 Vaso de Agua
+                    </button>
+                </div>
+
+                <!-- Próxima Comida -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2>🍽️ Próxima Comida</h2>
+                        <span class="meal-time" id="next-meal-time">08:00</span>
+                    </div>
+                    <div class="meal-card" id="next-meal">
+                        <div class="meal-icon">🍳</div>
+                        <div class="meal-info">
+                            <div class="meal-name">Desayuno</div>
+                            <div class="meal-description">Cargando...</div>
+                        </div>
+                    </div>
+                    <button id="btn-meal-completed" class="btn btn-secondary">
+                        ✅ Comida Completada
+                    </button>
+                </div>
+
+                <!-- Timer de Ayuno -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2>⏱️ Ayuno Actual</h2>
+                        <span class="fasting-status" id="fasting-status">En progreso</span>
+                    </div>
+                    <div class="timer-display">
+                        <div class="timer-value" id="fasting-timer">00:00:00</div>
+                        <div class="timer-label">Tiempo en ayuno</div>
+                    </div>
+                    <div class="fasting-target" id="fasting-target">
+                        Meta de hoy: 12 horas
+                    </div>
+                </div>
+
+                <!-- Electrolitos -->
+                <div class="card">
+                    <div class="checkbox-card" id="electrolytes-check">
+                        <input type="checkbox" id="electrolytes-checkbox" class="custom-checkbox">
+                        <label for="electrolytes-checkbox" class="checkbox-label">
+                            <span class="checkbox-icon">⚡</span>
+                            <div class="checkbox-text">
+                                <div class="checkbox-title">Agua + Sal + Limón</div>
+                                <div class="checkbox-subtitle">Consumo diario de electrolitos</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANTALLA 2: AYUNO INTELIGENTE -->
+        <section id="fasting" class="screen">
+            <header class="screen-header">
+                <h1>⏱️ Ayuno Inteligente</h1>
+                <p class="screen-subtitle">Protocolo semanal programado</p>
+            </header>
+
+            <div class="screen-content">
+                <!-- Estado Actual -->
+                <div class="card card-highlight">
+                    <div class="fasting-state">
+                        <div class="state-indicator" id="state-indicator">
+                            <span class="state-dot"></span>
+                            <span class="state-text" id="state-text">Ventana de Ayuno</span>
+                        </div>
+                    </div>
+                    <div class="timer-display timer-large">
+                        <div class="timer-value" id="fasting-timer-detail">00:00:00</div>
+                        <div class="timer-label">Tiempo transcurrido</div>
+                    </div>
+                    <div class="timer-progress">
+                        <div class="progress-bar">
+                            <div id="fasting-progress-bar" class="progress-fill"></div>
+                        </div>
+                        <div class="progress-text" id="fasting-progress-text">0% completado</div>
+                    </div>
+                </div>
+
+                <!-- Horario Semanal -->
+                <div class="card">
+                    <h2>📅 Protocolo esta Semana</h2>
+                    <div id="fasting-schedule" class="fasting-schedule">
+                        <!-- Se llena dinámicamente -->
+                    </div>
+                </div>
+
+                <!-- Historial -->
+                <div class="card">
+                    <h2>📊 Historial de Ayunos</h2>
+                    <div id="fasting-history" class="fasting-history">
+                        <div class="empty-state">
+                            <p>Sin ayunos completados aún</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANTALLA 3: MENÚ & PLANIFICACIÓN -->
+        <section id="menu" class="screen">
+            <header class="screen-header">
+                <h1>🍽️ Menú & Planificación</h1>
+                <div class="week-selector">
+                    <button class="week-btn" data-week="1">S1</button>
+                    <button class="week-btn active" data-week="2">S2</button>
+                    <button class="week-btn" data-week="3">S3</button>
+                    <button class="week-btn" data-week="4">S4</button>
+                </div>
+            </header>
+
+            <div class="screen-content">
+                <div id="menu-calendar" class="menu-calendar">
+                    <!-- Se llena dinámicamente con menús -->
+                </div>
+            </div>
+        </section>
+
+        <!-- PANTALLA 4: LISTA DE COMPRAS -->
+        <section id="shopping" class="screen">
+            <header class="screen-header">
+                <h1>🛒 Lista de Compras</h1>
+                <div class="week-selector">
+                    <button class="shopping-week-btn active" data-week="1">Semana 1</button>
+                    <button class="shopping-week-btn" data-week="2">Semana 2</button>
+                    <button class="shopping-week-btn" data-week="3">Semana 3</button>
+                    <button class="shopping-week-btn" data-week="4">Semana 4</button>
+                </div>
+            </header>
+
+            <div class="screen-content">
+                <div id="shopping-list" class="shopping-list">
+                    <!-- Se llena dinámicamente -->
+                </div>
+            </div>
+        </section>
+
+        <!-- PANTALLA 5: PROGRESO Y BIOMETRÍA -->
+        <section id="progress" class="screen">
+            <header class="screen-header">
+                <h1>📈 Progreso & Biometría</h1>
+                <button id="btn-log-measures" class="btn btn-primary btn-small">
+                    📝 Registrar Medidas
+                </button>
+            </header>
+
+            <div class="screen-content">
+                <!-- Resumen Actual -->
+                <div class="card">
+                    <h2>📊 Estado Actual</h2>
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-label">Peso Inicial</div>
+                            <div class="metric-value">90.0 kg</div>
+                        </div>
+                        <div class="metric-card metric-highlight">
+                            <div class="metric-label">Peso Actual</div>
+                            <div class="metric-value" id="current-weight">90.0 kg</div>
+                        </div>
+                        <div class="metric-card metric-success">
+                            <div class="metric-label">Pérdida Total</div>
+                            <div class="metric-value" id="weight-lost">0.0 kg</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">IMC Actual</div>
+                            <div class="metric-value" id="current-bmi">31.1</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gráfica de Peso -->
+                <div class="card">
+                    <h2>⚖️ Evolución de Peso</h2>
+                    <canvas id="weight-chart" width="320" height="200"></canvas>
+                </div>
+
+                <!-- Gráfica de Medidas -->
+                <div class="card">
+                    <h2>📏 Evolución de Medidas</h2>
+                    <canvas id="measures-chart" width="320" height="200"></canvas>
+                </div>
+
+                <!-- Tabla de Registros -->
+                <div class="card">
+                    <h2>📋 Historial de Registros</h2>
+                    <div id="records-table" class="records-table">
+                        <div class="empty-state">
+                            <p>Sin registros aún. Usa el botón "Registrar Medidas" para empezar.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANTALLA 6: AJUSTES -->
+        <section id="settings" class="screen">
+            <header class="screen-header">
+                <h1>⚙️ Ajustes</h1>
+            </header>
+
+            <div class="screen-content">
+                <!-- Perfil -->
+                <div class="card">
+                    <h2>👤 Mi Perfil</h2>
+                    <div class="profile-details">
+                        <div class="profile-row">
+                            <span class="profile-label">Nombre</span>
+                            <span class="profile-value">JuanCho</span>
+                        </div>
+                        <div class="profile-row">
+                            <span class="profile-label">Edad</span>
+                            <span class="profile-value">51 años</span>
+                        </div>
+                        <div class="profile-row">
+                            <span class="profile-label">Altura</span>
+                            <span class="profile-value">1.70 m</span>
+                        </div>
+                        <div class="profile-row">
+                            <span class="profile-label">Peso Inicial</span>
+                            <span class="profile-value">90.0 kg</span>
+                        </div>
+                        <div class="profile-row">
+                            <span class="profile-label">IMC Inicial</span>
+                            <span class="profile-value">31.1 (Obesidad I)</span>
+                        </div>
+                        <div class="profile-row">
+                            <span class="profile-label">Objetivo</span>
+                            <span class="profile-value">Combatir resistencia a insulina</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recordatorios -->
+                <div class="card">
+                    <h2>🔔 Recordatorios</h2>
+                    <div class="settings-list">
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <div class="setting-title">Recordar tomar agua</div>
+                                <div class="setting-subtitle">Cada 2 horas durante el día</div>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" id="reminder-water" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <div class="setting-title">Recordar comidas</div>
+                                <div class="setting-subtitle">15 min antes de cada comida</div>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" id="reminder-meals" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <div class="setting-title">Lunes de medidas</div>
+                                <div class="setting-subtitle">Cada lunes a las 7:00 AM</div>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" id="reminder-measures" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <div class="setting-title">Electrolitos diarios</div>
+                                <div class="setting-subtitle">Por la mañana al despertar</div>
+                            </div>
+                            <label class="toggle">
+                                <input type="checkbox" id="reminder-electrolytes" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Datos -->
+                <div class="card">
+                    <h2>💾 Gestión de Datos</h2>
+                    <div class="settings-actions">
+                        <button id="btn-export-data" class="btn btn-secondary">
+                            📤 Exportar Datos
+                        </button>
+                        <button id="btn-reset-data" class="btn btn-danger">
+                            🗑️ Reiniciar Todo
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Info -->
+                <div class="card">
+                    <h2>ℹ️ Información</h2>
+                    <div class="info-text">
+                        <p><strong>KETO Tracker v1.0</strong></p>
+                        <p>Diseñado específicamente para JuanCho</p>
+                        <p>Protocolo: 28 días de transformación cetogénica</p>
+                        <p>Basado en el plan de Alexia Suárez</p>
+                        <p class="info-copyright">© 2026 - Transformación de Salud</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NAVEGACIÓN BOTTOM -->
+        <nav class="bottom-nav">
+            <button class="nav-btn active" data-screen="home">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">Inicio</span>
+            </button>
+            <button class="nav-btn" data-screen="fasting">
+                <span class="nav-icon">⏱️</span>
+                <span class="nav-label">Ayuno</span>
+            </button>
+            <button class="nav-btn" data-screen="menu">
+                <span class="nav-icon">🍽️</span>
+                <span class="nav-label">Menú</span>
+            </button>
+            <button class="nav-btn" data-screen="shopping">
+                <span class="nav-icon">🛒</span>
+                <span class="nav-label">Compras</span>
+            </button>
+            <button class="nav-btn" data-screen="progress">
+                <span class="nav-icon">📈</span>
+                <span class="nav-label">Progreso</span>
+            </button>
+            <button class="nav-btn" data-screen="settings">
+                <span class="nav-icon">⚙️</span>
+                <span class="nav-label">Ajustes</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Modal para Registro de Medidas -->
+    <div id="modal-measures" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📝 Registrar Medidas</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="form-measures">
+                    <div class="form-group">
+                        <label for="input-weight">Peso (kg)</label>
+                        <input type="number" id="input-weight" step="0.1" min="40" max="200" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="input-neck">Cuello (cm)</label>
+                        <input type="number" id="input-neck" step="0.5" min="20" max="60" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="input-waist">Cintura (cm)</label>
+                        <input type="number" id="input-waist" step="0.5" min="50" max="200" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="input-hips">Cadera (cm)</label>
+                        <input type="number" id="input-hips" step="0.5" min="50" max="200" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-large">
+                        ✅ Guardar Medidas
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts Modulares -->
+    <script src="js/storage.js"></script>
+    <script src="js/menus.js"></script>
+    <script src="js/fasting.js"></script>
+    <script src="js/metrics.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/app.js"></script>
+    
+    <!-- Service Worker -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js')
+                .then(reg => console.log('✅ Service Worker registrado'))
+                .catch(err => console.log('❌ Error SW:', err));
+        }
+    </script>
+</body>
+</html>
