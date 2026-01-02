@@ -144,7 +144,15 @@ const App = {
     // Cargar datos del menú
     loadMenuData() {
         const week = Menus.getCurrentWeek();
-        const menu = Menus.getMenuForWeek(week);
+        this.renderWeekMenu(week);
+        
+        // Setup selector de semana
+        this.setupWeekSelector();
+    },
+    
+    // Renderizar menú de una semana específica
+    renderWeekMenu(weekNumber) {
+        const menu = Menus.getMenuForWeek(weekNumber);
         
         if (!menu) return;
         
@@ -188,9 +196,6 @@ const App = {
                 </div>
             `;
         }).join('');
-        
-        // Setup selector de semana
-        this.setupWeekSelector();
     },
     
     // Setup selector de semanas en menú
@@ -205,9 +210,8 @@ const App = {
                 weekButtons.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 
-                // Cargar menú de esa semana
-                const menu = Menus.getMenuForWeek(week);
-                // ... renderizar menú (similar al código anterior)
+                // Renderizar menú de esa semana
+                this.renderWeekMenu(week);
             });
         });
     },
